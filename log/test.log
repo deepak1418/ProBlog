@@ -1,0 +1,286 @@
+  [1m[35m (2.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (1.9ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "environment"]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "environment"]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "environment"]]
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "authors"[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (2.3ms)[0m  [1m[35mCREATE TABLE "authors" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "email" varchar DEFAULT '' NOT NULL, "encrypted_password" varchar DEFAULT '' NOT NULL, "reset_password_token" varchar, "reset_password_sent_at" datetime, "remember_created_at" datetime, "sign_in_count" integer DEFAULT 0 NOT NULL, "current_sign_in_at" datetime, "last_sign_in_at" datetime, "current_sign_in_ip" varchar, "last_sign_in_ip" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "l_name" varchar, "profession" varchar, "avatar" varchar, "bio" text, "f_name" varchar, "github_id" varchar, "insta_id" varchar)[0m
+  [1m[35m (7.5ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_authors_on_email" ON "authors" ("email")[0m
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_authors_on_reset_password_token" ON "authors" ("reset_password_token")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "friendly_id_slugs"[0m
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE TABLE "friendly_id_slugs" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "slug" varchar NOT NULL, "sluggable_id" integer NOT NULL, "sluggable_type" varchar(50), "scope" varchar, "created_at" datetime)[0m
+  [1m[35m (2.7ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope" ON "friendly_id_slugs" ("slug", "sluggable_type", "scope")[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE  INDEX "index_friendly_id_slugs_on_slug_and_sluggable_type" ON "friendly_id_slugs" ("slug", "sluggable_type")[0m
+  [1m[35m (1.8ms)[0m  [1m[35mCREATE  INDEX "index_friendly_id_slugs_on_sluggable_id" ON "friendly_id_slugs" ("sluggable_id")[0m
+  [1m[35m (1.8ms)[0m  [1m[35mCREATE  INDEX "index_friendly_id_slugs_on_sluggable_type" ON "friendly_id_slugs" ("sluggable_type")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "posts"[0m
+  [1m[35m (2.0ms)[0m  [1m[35mCREATE TABLE "posts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "body" text, "description" text, "slug" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "banner_image_url" varchar, "author_id" integer, "published" boolean DEFAULT 0, "published_at" datetime, "a_name" varchar)[0m
+  [1m[35m (2.0ms)[0m  [1m[35mCREATE  INDEX "index_posts_on_author_id" ON "posts" ("author_id")[0m
+  [1m[35m (1.8ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_posts_on_slug" ON "posts" ("slug")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "relationships"[0m
+  [1m[35m (2.1ms)[0m  [1m[35mCREATE TABLE "relationships" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "follower_id" integer, "followed_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[35m (1.9ms)[0m  [1m[35mCREATE  INDEX "index_relationships_on_followed_id" ON "relationships" ("followed_id")[0m
+  [1m[35m (2.2ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_relationships_on_follower_id_and_followed_id" ON "relationships" ("follower_id", "followed_id")[0m
+  [1m[35m (1.8ms)[0m  [1m[35mCREATE  INDEX "index_relationships_on_follower_id" ON "relationships" ("follower_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "taggings"[0m
+  [1m[35m (2.1ms)[0m  [1m[35mCREATE TABLE "taggings" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "tag_id" integer, "taggable_type" varchar, "taggable_id" integer, "tagger_type" varchar, "tagger_id" integer, "context" varchar(128), "created_at" datetime)[0m
+  [1m[35m (2.2ms)[0m  [1m[35mCREATE  INDEX "index_taggings_on_context" ON "taggings" ("context")[0m
+  [1m[35m (2.3ms)[0m  [1m[35mCREATE UNIQUE INDEX "taggings_idx" ON "taggings" ("tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type")[0m
+  [1m[35m (1.8ms)[0m  [1m[35mCREATE  INDEX "index_taggings_on_tag_id" ON "taggings" ("tag_id")[0m
+  [1m[35m (1.9ms)[0m  [1m[35mCREATE  INDEX "index_taggings_on_taggable_id_and_taggable_type_and_context" ON "taggings" ("taggable_id", "taggable_type", "context")[0m
+  [1m[35m (2.1ms)[0m  [1m[35mCREATE  INDEX "taggings_idy" ON "taggings" ("taggable_id", "taggable_type", "tagger_id", "context")[0m
+  [1m[35m (2.2ms)[0m  [1m[35mCREATE  INDEX "index_taggings_on_taggable_id" ON "taggings" ("taggable_id")[0m
+  [1m[35m (2.4ms)[0m  [1m[35mCREATE  INDEX "index_taggings_on_taggable_type" ON "taggings" ("taggable_type")[0m
+  [1m[35m (2.1ms)[0m  [1m[35mCREATE  INDEX "index_taggings_on_tagger_id_and_tagger_type" ON "taggings" ("tagger_id", "tagger_type")[0m
+  [1m[35m (2.1ms)[0m  [1m[35mCREATE  INDEX "index_taggings_on_tagger_id" ON "taggings" ("tagger_id")[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "tags"[0m
+  [1m[35m (2.0ms)[0m  [1m[35mCREATE TABLE "tags" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "taggings_count" integer DEFAULT 0)[0m
+  [1m[35m (1.9ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_tags_on_name" ON "tags" ("name")[0m
+  [1m[35m (1.9ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (1.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20180702063549)[0m
+  [1m[35m (1.8ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20180619005145),
+(20180619005410),
+(20180619200926),
+(20180619232945),
+(20180619233316),
+(20180621054818),
+(20180621141054),
+(20180621141055),
+(20180621141056),
+(20180621141057),
+(20180621141058),
+(20180621141059),
+(20180622234607),
+(20180627173647),
+(20180629201653),
+(20180629201725),
+(20180629202304),
+(20180629202813),
+(20180701092637);
+
+[0m
+  [1m[35m (2.1ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.4ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "test"], ["created_at", "2018-07-02 06:50:16.478059"], ["updated_at", "2018-07-02 06:50:16.478059"]]
+  [1m[35m (1.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFixture Delete (0.4ms)[0m  [1m[31mDELETE FROM "authors"[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM "posts"[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM "relationships"[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 06:50:16.640811', '2018-07-02 06:50:16.640811', 980190962)[0m
+  [1m[36mFixture Insert (0.4ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 06:50:16.640811', '2018-07-02 06:50:16.640811', 298486374)[0m
+  [1m[35m (3.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFixture Delete (0.3ms)[0m  [1m[31mDELETE FROM "authors"[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM "posts"[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM "relationships"[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 06:50:16.911129', '2018-07-02 06:50:16.911129', 980190962)[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 06:50:16.911129', '2018-07-02 06:50:16.911129', 298486374)[0m
+  [1m[35m (1.4ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM "authors"[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM "posts"[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM "relationships"[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 06:50:16.920747', '2018-07-02 06:50:16.920747', 980190962)[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 06:50:16.920747', '2018-07-02 06:50:16.920747', 298486374)[0m
+  [1m[35m (1.3ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM "authors"[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM "posts"[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM "relationships"[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 06:50:16.932949', '2018-07-02 06:50:16.932949', 980190962)[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 06:50:16.932949', '2018-07-02 06:50:16.932949', 298486374)[0m
+  [1m[35m (1.7ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM "authors"[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM "posts"[0m
+  [1m[36mFixture Delete (0.3ms)[0m  [1m[31mDELETE FROM "relationships"[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 06:50:16.947418', '2018-07-02 06:50:16.947418', 980190962)[0m
+  [1m[36mFixture Insert (1.0ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 06:50:16.947418', '2018-07-02 06:50:16.947418', 298486374)[0m
+  [1m[35m (1.2ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFixture Delete (0.4ms)[0m  [1m[31mDELETE FROM "authors"[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM "posts"[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM "relationships"[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 06:50:16.959839', '2018-07-02 06:50:16.959839', 980190962)[0m
+  [1m[36mFixture Insert (0.4ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 06:50:16.959839', '2018-07-02 06:50:16.959839', 298486374)[0m
+  [1m[35m (1.4ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFixture Delete (0.3ms)[0m  [1m[31mDELETE FROM "authors"[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM "posts"[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM "relationships"[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 06:50:16.979507', '2018-07-02 06:50:16.979507', 980190962)[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 06:50:16.979507', '2018-07-02 06:50:16.979507', 298486374)[0m
+  [1m[35m (1.5ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.2ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFixture Delete (0.3ms)[0m  [1m[31mDELETE FROM "authors"[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM "posts"[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM "relationships"[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 06:50:16.993959', '2018-07-02 06:50:16.993959', 980190962)[0m
+  [1m[36mFixture Insert (1.4ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 06:50:16.993959', '2018-07-02 06:50:16.993959', 298486374)[0m
+  [1m[35m (1.3ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFixture Delete (0.3ms)[0m  [1m[31mDELETE FROM "authors"[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM "posts"[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM "relationships"[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 06:50:17.008308', '2018-07-02 06:50:17.008308', 980190962)[0m
+  [1m[36mFixture Insert (1.3ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 06:50:17.008308', '2018-07-02 06:50:17.008308', 298486374)[0m
+  [1m[35m (1.7ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFixture Delete (0.3ms)[0m  [1m[31mDELETE FROM "authors"[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM "posts"[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM "relationships"[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 06:50:17.024279', '2018-07-02 06:50:17.024279', 980190962)[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 06:50:17.024279', '2018-07-02 06:50:17.024279', 298486374)[0m
+  [1m[35m (1.2ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (1.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFixture Delete (2.2ms)[0m  [1m[31mDELETE FROM "authors"[0m
+  [1m[36mFixture Delete (1.9ms)[0m  [1m[31mDELETE FROM "posts"[0m
+  [1m[36mFixture Delete (1.4ms)[0m  [1m[31mDELETE FROM "relationships"[0m
+  [1m[36mFixture Insert (1.0ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 07:44:02.463538', '2018-07-02 07:44:02.463538', 980190962)[0m
+  [1m[36mFixture Insert (0.5ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 07:44:02.463538', '2018-07-02 07:44:02.463538', 298486374)[0m
+  [1m[35m (1.5ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFixture Delete (0.3ms)[0m  [1m[31mDELETE FROM "authors"[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM "posts"[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM "relationships"[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 07:44:02.703057', '2018-07-02 07:44:02.703057', 980190962)[0m
+  [1m[36mFixture Insert (0.4ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 07:44:02.703057', '2018-07-02 07:44:02.703057', 298486374)[0m
+  [1m[35m (1.5ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFixture Delete (0.4ms)[0m  [1m[31mDELETE FROM "authors"[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM "posts"[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM "relationships"[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 07:44:02.714318', '2018-07-02 07:44:02.714318', 980190962)[0m
+  [1m[36mFixture Insert (0.5ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 07:44:02.714318', '2018-07-02 07:44:02.714318', 298486374)[0m
+  [1m[35m (1.7ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFixture Delete (0.4ms)[0m  [1m[31mDELETE FROM "authors"[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM "posts"[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM "relationships"[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 07:44:02.727349', '2018-07-02 07:44:02.727349', 980190962)[0m
+  [1m[36mFixture Insert (0.4ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 07:44:02.727349', '2018-07-02 07:44:02.727349', 298486374)[0m
+  [1m[35m (1.4ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFixture Delete (0.4ms)[0m  [1m[31mDELETE FROM "authors"[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM "posts"[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM "relationships"[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 07:44:02.743987', '2018-07-02 07:44:02.743987', 980190962)[0m
+  [1m[36mFixture Insert (0.4ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 07:44:02.743987', '2018-07-02 07:44:02.743987', 298486374)[0m
+  [1m[35m (1.3ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.3ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.3ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFixture Delete (0.4ms)[0m  [1m[31mDELETE FROM "authors"[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM "posts"[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM "relationships"[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 07:44:02.757259', '2018-07-02 07:44:02.757259', 980190962)[0m
+  [1m[36mFixture Insert (0.4ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 07:44:02.757259', '2018-07-02 07:44:02.757259', 298486374)[0m
+  [1m[35m (1.3ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFixture Delete (0.3ms)[0m  [1m[31mDELETE FROM "authors"[0m
+  [1m[36mFixture Delete (0.4ms)[0m  [1m[31mDELETE FROM "posts"[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM "relationships"[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 07:44:02.767649', '2018-07-02 07:44:02.767649', 980190962)[0m
+  [1m[36mFixture Insert (0.4ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 07:44:02.767649', '2018-07-02 07:44:02.767649', 298486374)[0m
+  [1m[35m (1.5ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFixture Delete (0.4ms)[0m  [1m[31mDELETE FROM "authors"[0m
+  [1m[36mFixture Delete (0.4ms)[0m  [1m[31mDELETE FROM "posts"[0m
+  [1m[36mFixture Delete (0.7ms)[0m  [1m[31mDELETE FROM "relationships"[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 07:44:02.781825', '2018-07-02 07:44:02.781825', 980190962)[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 07:44:02.781825', '2018-07-02 07:44:02.781825', 298486374)[0m
+  [1m[35m (1.6ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.3ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFixture Delete (0.4ms)[0m  [1m[31mDELETE FROM "authors"[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM "posts"[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM "relationships"[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 07:44:02.796291', '2018-07-02 07:44:02.796291', 980190962)[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 07:44:02.796291', '2018-07-02 07:44:02.796291', 298486374)[0m
+  [1m[35m (1.3ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFixture Delete (0.6ms)[0m  [1m[31mDELETE FROM "authors"[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM "posts"[0m
+  [1m[36mFixture Delete (0.3ms)[0m  [1m[31mDELETE FROM "relationships"[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 07:44:02.807946', '2018-07-02 07:44:02.807946', 980190962)[0m
+  [1m[36mFixture Insert (0.7ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 07:44:02.807946', '2018-07-02 07:44:02.807946', 298486374)[0m
+  [1m[35m (1.3ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFixture Delete (0.4ms)[0m  [1m[31mDELETE FROM "authors"[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM "posts"[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM "relationships"[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 07:44:02.818739', '2018-07-02 07:44:02.818739', 980190962)[0m
+  [1m[36mFixture Insert (0.4ms)[0m  [1m[32mINSERT INTO "authors" ("created_at", "updated_at", "id") VALUES ('2018-07-02 07:44:02.818739', '2018-07-02 07:44:02.818739', 298486374)[0m
+  [1m[35m (1.3ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
